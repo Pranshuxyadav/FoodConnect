@@ -7,18 +7,34 @@
     <link rel="stylesheet" href="templates/assets/styles.css">
 </head>
 <body>
-    <header>
-        <h1>Create New User</h1>
-        <nav>
+<header>
+    <h1>FoodConnect</h1>
+    <nav>
             <ul>
-                <li><a href="main.html" class="active">Home</a></li>
-                <li><a href="about.html">About</a></li>
+                <li><a href="main.php" class="active">Home</a></li>
+                <li><a href="about.php">About</a></li>
                 <li><a href="food-listings.php">Food Listings</a></li>
                 <li><a href="create_user.php">New User</a></li>
                 <li><a href="login.php">existing user</a></li>
             </ul>
         </nav>
-    </header>
+        <div class="user-info">
+        <?php
+        session_start();
+        if (isset($_SESSION['name'])) {
+            echo '<div class="user-profile">';
+            echo '<span class="username">Welcome, ' . htmlspecialchars($_SESSION['name']) . '</span>';
+            echo '<a href="logout.php" class="logout-link">Logout</a>';
+            echo '</div>';
+        } else {
+            echo '<div class="auth-links">';
+            echo '<a href="login.php" class="login-link">Login</a>';
+            echo '<a href="create_user.php" class="signup-link">Sign Up</a>';
+            echo '</div>';
+        }
+        ?>
+    </div>
+</header>
 
     <section>
         <h2>Sign Up</h2>
@@ -69,8 +85,8 @@
                     if ($stmt->execute()) {
                         echo '<p style="color:green;">Account created successfully!</p>';
                         // Optionally, redirect to another page
-                        // header('Location: index.html');
-                        // exit();
+                        header('Location: main.php');
+                        exit();
                     } else {
                         echo '<p style="color:red;">Error creating account: ' . $stmt->error . '</p>';
                     }
